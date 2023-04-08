@@ -165,15 +165,16 @@ const Display = () => {
         paddingTop: '75px'
       }}
       ></div>
-
+       {loading ? null :
+  
       <div style={{display:"flex",marginLeft:"2%",marginBottom:"30px",marginTop:"30px"}}>
 
       <hr className="divider" style={{marginRight:"5px",width:"40%", height:"4px"}} /> 
       <span style={{marginTop:"-22px",fontWeight:"bold",fontSize:"26px",marginLeft:"10px",marginRight:"10px",color:"blue"}}>Uploaded Images Display Below</span> 
       <hr className="divider" style={{marginLeft:"5px",fontSize:"25px", height:"4px",width:"40%"}} />
-      </div>
+      </div>}
       
-      {data ? null : 
+      {data || loading ? null : 
       <div>
         <div 
       style={{
