@@ -19,6 +19,7 @@ const context=createContext({});
  const App = () => {
 
   const [account, setAccount] = useState(null);
+  const [loading,setLoading] = useState(false);
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -39,18 +40,19 @@ const context=createContext({});
   return (
 
 
-<context.Provider value={{account,setAccount,hlo}}>
+<context.Provider value={{account,setAccount,hlo,loading,setLoading}}>
 
- 
+    
     <div className="h-300">
+      
     {!modalOpen && <Navbar />}
 
       {/* <Navbar /> */}
-      <div 
+      {/* <div 
       style={{
         paddingTop: '75px'
       }}
-      ></div>
+      ></div> */}
       {!modalOpen && (
         <button className="share" onClick={()=>setModalOpen(true)}>
           Share

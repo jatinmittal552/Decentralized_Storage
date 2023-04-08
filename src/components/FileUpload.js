@@ -2,11 +2,13 @@ import { useContext, useState } from "react";
 import axios from "axios";
 import "./FileUpload.css";
 import { tezos } from "../utils/tezos";
+import { context } from "../App";
 
 const FileUpload = ({account}) => {
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("No image selected");
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  const {loading,setLoading}=useContext(context);
 
 
 
@@ -37,8 +39,9 @@ const FileUpload = ({account}) => {
         try{
           const contract = await tezos.wallet.at("KT1AoZSGkYUaVDhNc4njfdVy6L7FbfSpyLWz");
           const op =await contract.methods.add(ImgHash).send();
-          
+          setLoading(true);
           await op.confirmation(1);
+          setLoading(false);
           alert("Successfully Image Uploaded");
           setFileName("No image selected");
           setFile(null);
@@ -70,8 +73,10 @@ const FileUpload = ({account}) => {
     setFileName(e.target.files[0].name);
   };
   return (
+    
     <div className="top">
       <form className="form" onSubmit={handleSubmit}>
+      
         <label htmlFor="file-upload" className="choose">
           Choose Image
         </label>
@@ -86,6 +91,12 @@ const FileUpload = ({account}) => {
         <button type="submit" className="upload" disabled = {!file}>
           Upload File
         </button>
+        {loading? 
+        <div className="Background">
+        <div class="loader"></div>
+      </div>
+        : null}
+
       </form>
     </div>
   );

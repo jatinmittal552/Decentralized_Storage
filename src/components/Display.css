@@ -4,16 +4,17 @@
     grid-gap: 10px;
     grid-auto-rows: 350px;
     box-sizing: border-box;
-    border-radius: 10px;
+    /* border-radius: 10px; */
     margin: 10px;
-    margin-top: 50px;
+    margin-top: 40px;
     padding-left: 20px;
+    padding-right: 20px;
     /* height: 55px;     */
   }
   
   .image-list img {
     width: 250px;
-    height: 300px;
+    height: 250px;
   }
   .center {
     margin: 25px;
@@ -76,4 +77,28 @@
   }
   .data{
     margin-bottom: 30px;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .animated {
+    animation-name: pulse;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    color: red;
+    text-shadow: 2px 2px 4px #000;
   }

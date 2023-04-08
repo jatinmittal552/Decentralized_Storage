@@ -1,16 +1,18 @@
-import { useState } from "react";
+import { useState , useContext } from "react";
 import "./Display.css";
 import { fetchStorage } from "../utils/tzkt";
 import { getAccount } from "../utils/wallet";
 import {VscChromeClose} from "react-icons/vsc";
 import {RxCrossCircled} from "react-icons/rx";
 import { tezos } from "../utils/tezos";
+import { context } from "../App";
 
 
 const Display = () => {
   const [data, setData] = useState(""); 
   const [account, setAccount] = useState(null);
   const [MyL,setMyL] = useState();
+  const {loading,setLoading} = useContext(context);
 
   const getdata = async () => {
     const account = await getAccount();
@@ -39,8 +41,8 @@ const Display = () => {
                   className="image-list"
 
                 ></img>
-                <RxCrossCircled style={{cursor:"pointer",display:"absolute",marginTop:"-600px",
-                        color:"black",marginLeft:"210px",fontSize:"30px"}} onClick={()=>deleteImage(item)}/>
+                <RxCrossCircled style={{cursor:"pointer",display:"absolute",marginTop:"-515px",
+                        color:"black",marginLeft:"130px",fontSize:"30px"}} onClick={()=>deleteImage(item)}/>
               </a>
             );
           });
@@ -131,31 +133,57 @@ const Display = () => {
   return (
     <>
       <button className="center button" onClick={getdata} >
-        Get Your Data
+        Get Files
       </button>
       <button className="center button" onClick={()=>{
         window.location.reload();
       }} style={{background:"red",marginLeft:"10px"}}>
-       Hide Your Data
+       Hide Files
       </button>
+      {loading ? null :
+
       <div style={{display:"flex",marginLeft:"27%",marginBottom:"30px",marginTop:"30px"}}>
 
       <hr className="divider" style={{marginRight:"5px",width:"30%", height:"4px"}} /> 
       <span style={{marginTop:"-22px",fontWeight:"bold"}}>OR</span> 
       <hr className="divider" style={{marginLeft:"5px",fontSize:"25px", height:"4px",width:"30%"}} />
-      </div>
-      
+      </div>}
+        
       <input
         type="text"
-        placeholder="Enter Other Address"
+        placeholder="Enter Friend's Addresses"
         className="address"
       ></input>
       <button  onClick={getOtherData} className="ynn">
-        Get Others Data
+        Get Friend Files
       </button>
-      <button   onClick={()=>hideOther()} className="ynn" style={{background:"red",marginLeft:"10px"}}>
+      {/* <button   onClick={()=>hideOther()} className="ynn" style={{background:"red",marginLeft:"10px"}}>
         Hide Others Data
-      </button>
+      </button> */}
+      <div 
+      style={{
+        paddingTop: '75px'
+      }}
+      ></div>
+
+      <div style={{display:"flex",marginLeft:"2%",marginBottom:"30px",marginTop:"30px"}}>
+
+      <hr className="divider" style={{marginRight:"5px",width:"40%", height:"4px"}} /> 
+      <span style={{marginTop:"-22px",fontWeight:"bold",fontSize:"26px",marginLeft:"10px",marginRight:"10px",color:"blue"}}>Uploaded Images Display Below</span> 
+      <hr className="divider" style={{marginLeft:"5px",fontSize:"25px", height:"4px",width:"40%"}} />
+      </div>
+      
+      {data ? null : 
+      <div>
+        <div 
+      style={{
+        paddingTop: '30px'
+      }}
+      ></div>
+
+      <p className="animated">Let's tap on get files</p>
+    </div>
+}
       <div className="image-list">{account ? data : null}</div>
 
     </>

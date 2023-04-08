@@ -12,6 +12,7 @@ const Modal = ({ setModalOpen })=> {
  
   const [contract, setContract] = useState(null);
   const [rm,setRm] = useState(null);
+  const [loading,setLoading] = useState(false);
   const remove=(e)=>{
     setRm(e.target.value);
     console.log(e.target.value)
@@ -22,7 +23,9 @@ const Modal = ({ setModalOpen })=> {
       try{
         const contract = await tezos.wallet.at("KT1AoZSGkYUaVDhNc4njfdVy6L7FbfSpyLWz");
         const op = await contract.methods.disallow(rm).send();
+        setLoading(true);
         await op.confirmation(1);
+        setLoading(false);
         alert("Address successfully removed");
         window.location.reload();
 
@@ -46,8 +49,9 @@ const Modal = ({ setModalOpen })=> {
           const contract = await tezos.wallet.at("KT1AoZSGkYUaVDhNc4njfdVy6L7FbfSpyLWz");
           // setContract(contract)
           const op =await contract.methods.allow(address).send();
-
+          setLoading(true);
           await op.confirmation(1);
+          setLoading(false);
           alert("Successfully added");
           window.location.reload();
 
@@ -93,6 +97,12 @@ const Modal = ({ setModalOpen })=> {
   }, []);
   return (
     <>
+    <div 
+      style={{
+        paddingTop: '75px'
+      }}
+      ></div>
+
       <div className="modalBackground">
        <div className="modalContainer">
 
@@ -125,10 +135,16 @@ const Modal = ({ setModalOpen })=> {
               </select>
             
            <div className="footer" style={{marginTop:"6px",marginLeft:"8px"}}>    <button onClick = {()=>removeDevice()}style={{background:"red"}}  >Remove Access</button></div>
+           {loading? 
+        <div className="ModalBackground">
+        <div class="loader"></div>
+      </div>
+        : null}
           
            
        </div>
       </div>
+      
     </>
   );
 };
