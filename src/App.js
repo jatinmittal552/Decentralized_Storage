@@ -20,6 +20,7 @@ const context=createContext({});
 
   const [account, setAccount] = useState(null);
   const [loading,setLoading] = useState(false);
+  const [selectImg,setSelectImg] = useState(null);
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -36,11 +37,17 @@ const context=createContext({});
       hlo();
     })
 
+    const setContent = async ()=>{
+      setModalOpen(true);
+      setSelectImg(null);
+      
+    }
+
 
   return (
 
 
-<context.Provider value={{account,setAccount,hlo,loading,setLoading}}>
+<context.Provider value={{account,setAccount,hlo,loading,setLoading,modalOpen,setModalOpen,selectImg,setSelectImg}}>
 
     
     <div className="h-300">
@@ -54,8 +61,8 @@ const context=createContext({});
       }}
       ></div> */}
       {!modalOpen && (
-        <button className="share" onClick={()=>setModalOpen(true)}>
-          Share
+        <button className="share" onClick={setContent}>
+          See Access
         </button>
       )}
       {modalOpen && (

@@ -33,11 +33,11 @@ const FileUpload = ({account}) => {
             "Content-Type": "multipart/form-data",
           },
         });
-        const ImgHash = `ipfs://${resFile.data.IpfsHash}`;
+        const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
         
       
         try{
-          const contract = await tezos.wallet.at("KT1AoZSGkYUaVDhNc4njfdVy6L7FbfSpyLWz");
+          const contract = await tezos.wallet.at("KT1TWcZKqV1V2iTVrPW7Y1rivSsFZjk9TaS6");
           const op =await contract.methods.add(ImgHash).send();
           setLoading(true);
           await op.confirmation(1);

@@ -47,12 +47,23 @@
     border-radius: 5px;
     margin-right: 10px;
     margin-top: 28px;
+    margin-left: 40px;
     height:44px;
   }
   .button:hover {
     box-shadow: rgba(253, 76, 0, 0.5) 0 3px 8px;
   }
   .address {
+    display: block;
+    margin: auto;
+    height: 50px;
+    width: 350px;
+    text-align: center;
+    margin-top: 10px;
+    border-radius: 10px;
+    /* margin-left: 0px; */
+  }
+  .url {
     display: block;
     margin: auto;
     height: 50px;

@@ -3,7 +3,7 @@
     }
     .modalBackground {
         width: 80vw;
-        height: 90vh;
+        height: 89vh;
         background-color:#5555;
       position: fixed;
         display: flex;
@@ -18,7 +18,7 @@
       
       .modalContainer {
         width: 400px;
-        height: 505px;
+        height: 530px;
         border-radius: 12px;
         background-color: white;
         box-shadow: white 5px 5px 15px;
@@ -27,7 +27,7 @@
         flex-direction: column;
         position:relative;
         z-index: 56;
-        margin-bottom: 2%;
+        margin-bottom: 1%;
       }
       
       .modalContainer {
@@ -53,11 +53,12 @@
     
        
        
-      
+        margin-top: -70px;
      
         font-size: 1.7rem;
-        text-align: center;
+        /* text-align: center; */
       }
+      
       
       
       
@@ -83,6 +84,14 @@
          font-size: 17px;
         text-align: center;
     }
+    .url{
+      display: block;
+      height: 43px;
+     
+       font-size: 17px;
+      text-align: center;
+  }
+  
     
     
     
@@ -105,6 +114,13 @@
         width: 95%;
         margin-left: 10px;
       }
+
+      #selectImages{
+        height:35px;
+      
+          width: 95%;
+          margin-left: 10px;
+        }
       .body input{
         width: 100%;
       }
@@ -141,12 +157,12 @@
       }
 
       .ModalBackground {
-        width: 600px;
-        height: 479px;
+        width: 550px;
+        height: 503px;
         background-color:#5555;    
-      margin-left: -124px;
+      margin-left: -100px;
         backdrop-filter: blur(20px);
-      margin-top: -480px;
+      margin-top: -505px;
       position: fixed;
         
       }

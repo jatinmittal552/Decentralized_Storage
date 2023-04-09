@@ -6,6 +6,8 @@ import {VscChromeClose} from "react-icons/vsc";
 import {RxCrossCircled} from "react-icons/rx";
 import { tezos } from "../utils/tezos";
 import { context } from "../App";
+import Modal from "./Modal";
+import {BiShareAlt} from "react-icons/bi"
 
 
 const Display = () => {
@@ -13,6 +15,12 @@ const Display = () => {
   const [account, setAccount] = useState(null);
   const [MyL,setMyL] = useState();
   const {loading,setLoading} = useContext(context);
+  const {modalopen,setModalOpen}=useContext(context);
+  const {selectImg,setSelectImg}=useContext(context);
+
+
+  
+  
 
   const getdata = async () => {
     const account = await getAccount();
@@ -33,16 +41,26 @@ const Display = () => {
           
           const images = str_array.map((item, i) => {
             return (
-              <a key={i} >
+              // <a href={item} key={i} target="_blank">
+                <a key={i}>
+                <a href={item} key={i} target="_blank">
+
                 <img
                   key={i}
-                  src={`https://gateway.pinata.cloud/ipfs/${item.substring(6)}`}
+                  src={`https://gateway.pinata.cloud/ipfs/${item.substring(34)}`}
                   alt="new"
                   className="image-list"
 
                 ></img>
-                <RxCrossCircled style={{cursor:"pointer",display:"absolute",marginTop:"-515px",
-                        color:"black",marginLeft:"130px",fontSize:"30px"}} onClick={()=>deleteImage(item)}/>
+                </a>
+                
+<BiShareAlt style={{cursor:"pointer",display:"absolute",marginTop:"-583px",
+                        color:"black",marginLeft:"131px",fontSize:"30px"}} onClick={()=>setContent(item)}/>
+                <RxCrossCircled style={{cursor:"pointer",display:"absolute",marginTop:"-560px",
+                        color:"red",marginLeft:"131px",fontSize:"30px"}} onClick={()=>deleteImage(item)}/>
+
+{/* <RxCrossCircled style={{cursor:"pointer",display:"absolute",marginTop:"-115px",
+                        color:"black",marginLeft:"130px",fontSize:"30px"}} onClick={()=>setContent(item)}/> */}
               </a>
             );
           });
@@ -62,44 +80,93 @@ const Display = () => {
     let dataArray;
     let d;
     const Otheraddress = document.querySelector(".address").value;
+    console.log(Otheraddress);
+
+
+
     const storage = await fetchStorage();
-    if (Otheraddress && Otheraddress!=account) {
-        const my_map = storage.user;
+    if (Otheraddress && Otheraddress!=account ) {
+        const my_map = storage.access_user;
         if(my_map.hasOwnProperty(Otheraddress)){
+          console.log("hii");
           const my_list = my_map[Otheraddress];
-          const my_L = Object.keys(my_list);
-          if(my_L[0]){
-              dataArray = my_L;
-              const str = dataArray.toString();
-              const str_array = str.split(",");
-              const images = str_array.map((item, i) => {
-                return (
-                  <>
-                  {/* <a href={item} key={i} target="_blank">
-                   */}<a key={i}>
-                    <img
-                      key={i}
-                      src={`https://gateway.pinata.cloud/ipfs/${item.substring(6)}`}
-                      alt="new"
-                      className="image-list"
-                      style={{display:"relative"}}
-                    ></img>
+          if(my_list.hasOwnProperty(account)){
+            console.log("hello");
+            const my_imgs = my_list[account];
+            const imgs = Object.keys(my_imgs);
+            const str = imgs.toString(); 
+            const str_array = str.split(",");
                     
-                  </a>
-                  </>
-                );
-              });
-              setData(images);
-            }else{
-              alert("No image present at that address")
-            }
+          const images = str_array.map((item, i) => {
+            return (
+                <a key={i}>
+                <img
+                  key={i}
+                  src={`https://gateway.pinata.cloud/ipfs/${item.substring(34)}`}
+                  alt="new"
+                  className="image-list"
+                ></img>
+              </a>
+            );
+          });
+          setData(images);
+
+            // if(my_imgs.hasOwnProperty(url)){
+            //   const image = (()=>{return (
+            //             <>
+            //             <a href={url} target="_blank">
+            //               <img
+            //                 src={url}
+            //                 alt="new"
+            //                 className="image-list"
+            //                 style={{display:"relative"}}
+            //               ></img>
+            //             </a>
+            //             </>
+            //           );});
+            //           setData(image);
+
+
+            // }
+
+          }else{
+            alert("You don't have access")
+          }
         }else{
-          alert("You don't have access");
+          alert("User is not registered");
         }
       }
       else{
-        alert("Enter other wallet address");
+        alert("Enter correct value");
       }
+
+          
+          // if(my_L[0]){
+          //     dataArray = my_L;
+          //     const str = dataArray.toString();
+          //     const str_array = str.split(",");
+          //     const images = str_array.map((item, i) => {
+          //       return (
+          //         <>
+          //         <a href={item} key={i} target="_blank">
+                   
+          //           <img
+          //             key={i}
+          //             src={`https://gateway.pinata.cloud/ipfs/${item.substring(34)}`}
+          //             alt="new"
+          //             className="image-list"
+          //             style={{display:"relative"}}
+          //           ></img>
+                    
+          //         </a>
+          //         </>
+          //       );
+          //     });
+          //     setData(images);
+          //   }else{
+          //     alert("No image present at that address")
+          //   }}
+         
 
   };
   const hideOther = () => {
@@ -114,7 +181,7 @@ const Display = () => {
 
   const deleteImage = async (img) => {
     try{
-      const contract = await tezos.wallet.at("KT1AoZSGkYUaVDhNc4njfdVy6L7FbfSpyLWz");
+      const contract = await tezos.wallet.at("KT1TWcZKqV1V2iTVrPW7Y1rivSsFZjk9TaS6");
       // setContract(contract)
       const op =await contract.methods.deleteImg(img).send();
       await op.confirmation(1);
@@ -126,9 +193,12 @@ const Display = () => {
       alert("Try Again");
       
     } 
-
-
     
+}
+const setContent = async (item) => {
+  setModalOpen(true);
+  setSelectImg(item);
+
 }
   return (
     <>
@@ -154,6 +224,11 @@ const Display = () => {
         placeholder="Enter Friend's Addresses"
         className="address"
       ></input>
+      {/* <input
+        type="url"
+        placeholder="Enter image url"
+        className="url"
+      ></input> */}
       <button  onClick={getOtherData} className="ynn">
         Get Friend Files
       </button>
@@ -170,7 +245,7 @@ const Display = () => {
       <div style={{display:"flex",marginLeft:"2%",marginBottom:"30px",marginTop:"30px"}}>
 
       <hr className="divider" style={{marginRight:"5px",width:"40%", height:"4px"}} /> 
-      <span style={{marginTop:"-22px",fontWeight:"bold",fontSize:"26px",marginLeft:"10px",marginRight:"10px",color:"blue"}}>Uploaded Images Display Below</span> 
+      <span style={{marginTop:"-22px",fontWeight:"bold",fontSize:"26px",marginLeft:"17px",marginRight:"17px",color:"blue",marginTop:"-27px"}}>Uploaded Images </span> 
       <hr className="divider" style={{marginLeft:"5px",fontSize:"25px", height:"4px",width:"40%"}} />
       </div>}
       
